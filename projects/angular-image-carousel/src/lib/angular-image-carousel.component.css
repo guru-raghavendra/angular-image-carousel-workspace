@@ -1,0 +1,84 @@
+.carousel-container {
+	position: relative;
+	width: 600px; /* Adjust as needed or make responsive */
+	height: 300px; /* Adjust as needed or make responsive */
+	margin: 0 auto;
+	overflow: hidden;
+  }
+  
+  .main-image {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  }
+  
+  .neighbor-image {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	opacity: 0.8; /* Slight fade for neighbor images */
+  }
+  
+  .left-neighbor {
+	left: 10%;
+  }
+  
+  .right-neighbor {
+	right: 10%;
+  }
+  
+  /* Navigation arrows */
+  .nav-arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	border: none;
+	background: rgba(0,0,0,0.5);
+	color: #fff;
+	font-size: 1.5rem;
+	padding: 0.5rem 0.75rem;
+	cursor: pointer;
+	z-index: 2;
+  }
+  
+  .left-arrow {
+	left: 0.5rem;
+  }
+  
+  .right-arrow {
+	right: 0.5rem;
+  }
+  
+  /* Radio buttons row */
+  .carousel-radios {
+	text-align: center;
+	margin-top: 1rem;
+  }
+  
+  .carousel-radios label {
+	margin: 0 0.25rem;
+	cursor: pointer;
+  }
+  
+  /* Hide default radio and style custom dot */
+  .carousel-radios input[type="radio"] {
+	display: none;
+  }
+  
+  .radio-dot {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border: 2px solid #333;
+	border-radius: 50%;
+	margin-left: 4px;
+	margin-right: 4px;
+	vertical-align: middle;
+  }
+  
+  /* When radio is checked, fill the dot */
+  input[type="radio"]:checked + .radio-dot {
+	background-color: #333;
+  }
+  
