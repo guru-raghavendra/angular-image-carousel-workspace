@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularImageCarouselComponent } from 'angular-image-carousel';
-
+import { CarouselItem } from 'angular-image-carousel';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,10 +10,24 @@ import { AngularImageCarouselComponent } from 'angular-image-carousel';
 })
 export class AppComponent {
   // The images array can be customized or loaded dynamically
-  images: string[] = [
-    'https://shop.amul.com/s/62fa94df8c13af2e242eba16/6523d2697dd6b176ec646ba2/03-bop_amul-whey-protein-960g-1024x1024.png',
-	'../assets/img1.jpg',
-	'../assets/img2.jpg',
-	'../assets/img3.jpg',
+  data: CarouselItem[] = [
+    {
+      mediaUrl: '../assets/img2.jpg',
+      redirectUrl: 'https://www.youtube.com/embed/jwnez8HdN7E?si=4VmRqZdQ7UYBQ0MB',
+      title: 'Product Name',
+      description: 'Product description'
+    },
+	{
+		mediaUrl: '../assets/img3.jpg',
+		title: 'Product Name',
+		description: 'Product description'
+	},
+    {
+      mediaUrl: 'https://www.youtube.com/embed/jwnez8HdN7E?si=4VmRqZdQ7UYBQ0MB',
+      thumbnailUrl: '../assets/img1.jpg'
+    },
+    {
+      mediaUrl: 'https://www.youtube.com/embed/jwnez8HdN7E?si=4VmRqZdQ7UYBQ0MB'
+    }
   ];
 }

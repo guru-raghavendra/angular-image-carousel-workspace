@@ -14,7 +14,7 @@
 	transform-style: preserve-3d;
 }
 
-.image-card {
+.carousel-item {
 	position: absolute;
 	height: 100%;
 	transition: all 0.4s ease;
@@ -25,6 +25,7 @@
 	margin: 0 auto;
 	pointer-events: none;
 	transform: scale(0.8);
+	border-radius: 10px;
 }
 
 img {
@@ -32,7 +33,17 @@ img {
 	height: 100%;
 	border-radius: 10px;
 	object-fit: cover;
-	box-shadow: 0px 0px 5px 0px rgba(81, 81, 81, 0.47);
+}
+iframe{
+	width: 100%;
+    height: 100%;
+	border-radius: 10px;
+}
+video{
+	width: 100%;
+    height: 100%;
+	border-radius: 10px;
+	object-fit: cover;
 }
 
 .left-position {
@@ -47,6 +58,7 @@ img {
 	opacity: 1;
 	z-index: 1;
 	pointer-events: auto;
+	box-shadow: 0px 0px 5px 0px rgba(81, 81, 81, 0.47);
 }
 
 .right-position {

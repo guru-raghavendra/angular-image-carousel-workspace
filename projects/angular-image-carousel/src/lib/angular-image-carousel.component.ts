@@ -7,20 +7,21 @@ import {
   OnDestroy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { CarouselItem, MediaType } from './interfaces/carousel-item.interface';
+import { SafePipe } from './pipes/safe.pipe';
 
 @Component({
   selector: 'lib-angular-image-carousel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SafePipe],
   templateUrl: './angular-image-carousel.component.html',
   styleUrls: ['./angular-image-carousel.component.css'],
 })
 export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   /**
-   * List of image URLs in the carousel.
+   * List of data.
    */
-  @Input() images: string[] = [];
+  @Input() data: CarouselItem[] = [];
 
   /**
    * Whether the carousel loops when reaching either end.
@@ -51,25 +52,10 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   currentIndex = signal(0);
 
 
-  prevIndex = computed(() => {
-    if (!this.loop && this.currentIndex() === 0) {
-      return 0; // or hide neighbor if not looping
-    }
-    return (this.currentIndex() - 1 + this.images.length) % this.images.length;
-  });
-
-  /**
-   * Compute the next index with wrapping (if loop is true).
-   */
-  nextIndex = computed(() => {
-    if (!this.loop && this.currentIndex() === this.images.length - 1) {
-      return this.images.length - 1; // or hide neighbor if not looping
-    }
-    return (this.currentIndex() + 1) % this.images.length;
-  });
 
   // Track positions of all images
   positions = signal<('far-left' | 'left' | 'center' | 'right' | 'far-right' | 'hidden')[]>([]);
+
 
   ngOnInit(): void {
     this.updatePositions();
@@ -77,7 +63,7 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
 
   private updatePositions(): void {
     const current = this.currentIndex();
-    const newPositions = this.images.map((_, index) => {
+    const newPositions = this.data.map((_, index) => {
         if (index === current) return 'center';
         if (index === this.prevIndex()) return 'left';
         if (index === this.nextIndex()) return 'right';
@@ -88,24 +74,39 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
     this.positions.set(newPositions);
   }
 
-  ngOnDestroy(): void {
-    // Clean up any intervals/subscriptions if added
-  }
+  ngOnDestroy(): void {}
 
-  /**
-   * Moves to the previous image, rotating clockwise (per requirements).
+
+   /**
+   * Compute the next/prev index with wrapping (if loop is true).
    */
+
+  prevIndex = computed(() => {
+    if (!this.loop && this.currentIndex() === 0) {
+      return 0; // or hide neighbor if not looping
+    }
+    return (this.currentIndex() - 1 + this.data.length) % this.data.length;
+  });
+
+ 
+  nextIndex = computed(() => {
+    if (!this.loop && this.currentIndex() === this.data.length - 1) {
+      return this.data.length - 1; // or hide neighbor if not looping
+    }
+    return (this.currentIndex() + 1) % this.data.length;
+  });
+
+
+
+
   prev(): void {
     if (!this.loop && this.currentIndex() === 0) return;
     this.currentIndex.set(this.prevIndex());
     this.updatePositions();
   }
 
-  /**
-   * Moves to the next image, rotating anticlockwise (per requirements).
-   */
   next(): void {
-    if (!this.loop && this.currentIndex() === this.images.length - 1) return;
+    if (!this.loop && this.currentIndex() === this.data.length - 1) return;
     this.currentIndex.set(this.nextIndex());
     this.updatePositions();
   }
@@ -130,6 +131,22 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
       this.prev();
     } else {
       this.next();
+    }
+  }
+
+  // Helper method to determine media type if not specified
+  determineMediaType(item: CarouselItem): MediaType {
+    
+    const url = item.mediaUrl.toLowerCase();
+    if (url.match(/\.(jpg|jpeg|png|gif|webp|svg|avif)$/)) return 'image';
+    if (url.match(/\.(mp4|webm|ogg)$/)) return 'video';
+    if (url.includes('youtube.com') || url.includes('vimeo.com') || url.includes('youtu.be')) return 'iframe';
+    return 'unknown';
+  }
+
+  handleItemClick(item: CarouselItem): void {
+    if (item.redirectUrl) {
+      window.open(item.redirectUrl, '_blank');
     }
   }
 

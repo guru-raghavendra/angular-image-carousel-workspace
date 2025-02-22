@@ -1,27 +1,49 @@
 <div class="angular-image-carousel">
 
-	<div class="carousel-container" [style.height.px]="height + 'px'" *ngIf="images && images.length > 0">
+	<div class="carousel-container" [style.height.px]="height" *ngIf="data && data.length > 0">
 		<!-- All images -->
-		<div *ngFor="let image of images; let i = index" class="image-card" [style.width]="width + '%'"
+		<div *ngFor="let item of data; let i = index" class="carousel-item" [style.width]="width + '%'"
 			[class.far-left-position]="positions()[i] === 'far-left'" [class.left-position]="positions()[i] === 'left'"
 			[class.center-position]="positions()[i] === 'center'" [class.right-position]="positions()[i] === 'right'"
 			[class.far-right-position]="positions()[i] === 'far-right'"
-			(click)="positions()[i] === 'left' ? prev() : positions()[i] === 'right' ? next() : null">
-			<img [src]="image" [alt]="'Image ' + (i + 1)">
+			(click)="positions()[i] === 'center' ? handleItemClick(item) : positions()[i] === 'left' ? prev() : positions()[i] === 'right' ? next() : null">
+
+			<!-- Image -->
+			<img *ngIf="determineMediaType(item) === 'image'" [src]="item.mediaUrl"
+				[alt]="item.title || 'Image ' + (i + 1)" [title]="item.description || ''">
+
+			<!-- Video -->
+			<video *ngIf="determineMediaType(item) === 'video'" [poster]="item.thumbnailUrl" controls
+				[title]="item.description || ''">
+				<source [src]="item.mediaUrl" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+
+			<!-- IFrame (YouTube/Vimeo) -->
+			<iframe *ngIf="determineMediaType(item) === 'iframe'" [src]="item.mediaUrl | safe" frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen>
+			</iframe>
+
+			<!-- Unknown type fallback -->
+			<div *ngIf="determineMediaType(item) === 'unknown'" class="unknown-media">
+				<p>Unsupported media type</p>
+			</div>
+
 		</div>
 
 		<!-- Navigation arrows -->
-		<button class="nav-arrow left-arrow" *ngIf="showArrows && images.length > 1" (click)="prev()">
+		<button class="nav-arrow left-arrow" *ngIf="showArrows && data.length > 1" (click)="prev()">
 			&lt;
 		</button>
-		<button class="nav-arrow right-arrow" *ngIf="showArrows && images.length > 1" (click)="next()">
+		<button class="nav-arrow right-arrow" *ngIf="showArrows && data.length > 1" (click)="next()">
 			&gt;
 		</button>
 	</div>
 
 	<!-- Radio Buttons for Selection -->
-	<div class="carousel-radios" *ngIf="showRadioButtons && images.length > 1">
-		<label *ngFor="let img of images; let i = index">
+	<div class="carousel-radios" *ngIf="showRadioButtons && data.length > 1">
+		<label *ngFor="let img of data; let i = index">
 			<input type="radio" [checked]="i === currentIndex()" name="carousel-radios" (change)="selectIndex(i)">
 			<!-- Visible dot or custom styling -->
 			<span class="radio-dot"></span>
