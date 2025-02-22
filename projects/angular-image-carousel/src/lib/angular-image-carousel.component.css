@@ -15,15 +15,19 @@
 	transform-style: preserve-3d;
 }
 
+
 .image-card {
 	position: absolute;
 	height: 100%;
 	width: 60%;
 	transition: all 0.4s ease;
 	cursor: pointer;
-	margin: auto;
+	opacity: 0;
 	left: 0;
 	right: 0;
+	margin: 0 auto;
+	pointer-events: none;
+	transform: translateX(100%) scale(0.8);
 }
 
 img {
@@ -34,23 +38,25 @@ img {
 	box-shadow: 0px 0px 5px 0px rgba(81, 81, 81, 0.47);
 }
 
-.main-image {
-	transform: translatex(0) scale(1);
-	opacity: 1;
-	z-index: 1;
-}
-
-.neighbor-image {
+.left-position {
+	transform: translateX(-40%) scale(0.8);
 	opacity: 0.4;
 	z-index: 0;
+	pointer-events: auto;
 }
 
-.left-neighbor {
-	transform: translatex(-40%) scale(0.8);
+.center-position {
+	transform: translateX(0) scale(1);
+	opacity: 1;
+	z-index: 1;
+	pointer-events: auto;
 }
 
-.right-neighbor {
-	transform: translatex(40%) scale(0.8);
+.right-position {
+	transform: translateX(40%) scale(0.8);
+	opacity: 0.4;
+	z-index: 0;
+	pointer-events: auto;
 }
 
 /* Navigation arrows */
