@@ -3,9 +3,10 @@
 	<div class="carousel-container" *ngIf="images && images.length > 0">
 		<!-- All images -->
 		<div *ngFor="let image of images; let i = index" class="image-card"
-			[class.left-position]="positions()[i] === 'left'" [class.center-position]="positions()[i] === 'center'"
-			[class.right-position]="positions()[i] === 'right'" (click)="positions()[i] === 'left' ? prev() : 
-					 positions()[i] === 'right' ? next() : null">
+			[class.far-left-position]="positions()[i] === 'far-left'" [class.left-position]="positions()[i] === 'left'"
+			[class.center-position]="positions()[i] === 'center'" [class.right-position]="positions()[i] === 'right'"
+			[class.far-right-position]="positions()[i] === 'far-right'"
+			(click)="positions()[i] === 'left' ? prev() : positions()[i] === 'right' ? next() : null">
 			<img [src]="image" [alt]="'Image ' + (i + 1)">
 		</div>
 
