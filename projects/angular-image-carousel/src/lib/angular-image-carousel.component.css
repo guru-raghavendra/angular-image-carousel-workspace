@@ -27,7 +27,7 @@
 	right: 0;
 	margin: 0 auto;
 	pointer-events: none;
-	transform: translateX(100%) scale(0.8);
+	transform: scale(0.8);
 }
 
 img {
