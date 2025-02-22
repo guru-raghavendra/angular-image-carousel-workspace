@@ -7,14 +7,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import {
-//   trigger,
-//   state,
-//   style,
-//   transition,
-//   animate,
-//   AnimationEvent
-// } from '@angular/animations';
+
 
 @Component({
   selector: 'lib-angular-image-carousel',
@@ -22,31 +15,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './angular-image-carousel.component.html',
   styleUrls: ['./angular-image-carousel.component.css'],
-//   animations: [
-//     trigger('rotateAnimation', [
-//       // State for no rotation
-//       state('none', style({ transform: 'none' })),
-
-//       // State for clockwise rotation
-//       state('clockwise', style({ transform: 'rotate(360deg)' })),
-
-//       // State for anticlockwise rotation
-//       state('anticlockwise', style({ transform: 'rotate(-360deg)' })),
-
-//       // Any -> clockwise
-//       transition('* => clockwise', [
-//         animate('0.5s')
-//       ]),
-//       // Any -> anticlockwise
-//       transition('* => anticlockwise', [
-//         animate('0.5s')
-//       ]),
-//       // Return to none
-//       transition('* => none', [
-//         animate('0s')
-//       ])
-//     ])
-//   ]
 })
 export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   /**
@@ -71,10 +39,7 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   @Input() neighborWidth = 150;
   @Input() neighborHeight = 150;
 
-  /**
-   * Blur intensity for the neighbor images.
-   */
-  @Input() blurIntensity = 2;
+
 
   /**
    * Whether to show next/prev navigation arrows.
@@ -91,15 +56,7 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
    */
   currentIndex = signal(0);
 
-  /**
-   * Rotation direction used for the animation.
-   * Possible values: 'none' | 'clockwise' | 'anticlockwise'
-   */
-//   rotationState = signal<'none' | 'clockwise' | 'anticlockwise'>('none');
 
-  /**
-   * Compute the previous index with wrapping (if loop is true).
-   */
   prevIndex = computed(() => {
     if (!this.loop && this.currentIndex() === 0) {
       return 0; // or hide neighbor if not looping
@@ -117,8 +74,21 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
     return (this.currentIndex() + 1) % this.images.length;
   });
 
+  // Track positions of all images
+  positions = signal<('left' | 'center' | 'right' | 'hidden')[]>([]);
+
   ngOnInit(): void {
-    // Optional: set up auto-play or other logic here
+    this.updatePositions();
+  }
+
+  private updatePositions(): void {
+    const newPositions = this.images.map((_, index) => {
+      if (index === this.currentIndex()) return 'center';
+      if (index === this.prevIndex()) return 'left';
+      if (index === this.nextIndex()) return 'right';
+      return 'hidden';
+    });
+    this.positions.set(newPositions);
   }
 
   ngOnDestroy(): void {
@@ -130,11 +100,8 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
    */
   prev(): void {
     if (!this.loop && this.currentIndex() === 0) return;
-
-    // Set rotation state to clockwise
-    // this.rotationState.set('clockwise');
-    // Move index
     this.currentIndex.set(this.prevIndex());
+    this.updatePositions();
   }
 
   /**
@@ -142,11 +109,8 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
    */
   next(): void {
     if (!this.loop && this.currentIndex() === this.images.length - 1) return;
-
-    // Set rotation state to anticlockwise
-    // this.rotationState.set('anticlockwise');
-    // Move index
     this.currentIndex.set(this.nextIndex());
+    this.updatePositions();
   }
 
   /**
@@ -156,16 +120,8 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
    */
   selectIndex(newIndex: number): void {
     if (newIndex === this.currentIndex()) return;
-
-    // Decide direction:
-    // If new index is greater than current => anticlockwise
-    // Else => clockwise
-    if (newIndex > this.currentIndex()) {
-    //   this.rotationState.set('anticlockwise');
-    } else {
-    //   this.rotationState.set('clockwise');
-    }
     this.currentIndex.set(newIndex);
+    this.updatePositions();
   }
 
   /**
@@ -180,17 +136,4 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Return inline CSS for neighbor blur effect
-   */
-//   getBlurStyle(): string {
-//     return `blur(${this.blurIntensity}px)`;
-//   }
-
-  /**
-   * After animation ends, reset to 'none'
-   */
-//   onAnimationDone(event: AnimationEvent) {
-//     // this.rotationState.set('none');
-//   }
 }

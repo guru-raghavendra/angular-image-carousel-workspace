@@ -1,50 +1,30 @@
 <div class="angular-image-carousel">
 
 	<div class="carousel-container" *ngIf="images && images.length > 0">
-		<!-- Left neighbor (smaller & blurred) -->
-		<div class="image-card neighbor-image left-neighbor" 
-			 *ngIf="images.length > 1" (click)="onNeighborClick('left')">
-		  <img 
-			[src]="images[prevIndex()]" 
+		<!-- All images -->
+		<div *ngFor="let image of images; let i = index" class="image-card"
+			[class.left-position]="positions()[i] === 'left'" [class.center-position]="positions()[i] === 'center'"
+			[class.right-position]="positions()[i] === 'right'" (click)="positions()[i] === 'left' ? prev() : 
+					 positions()[i] === 'right' ? next() : null">
+			<img [src]="image" [alt]="'Image ' + (i + 1)">
+		</div>
 
-			alt="Previous Image" />
-		</div>
-	  
-		<!-- Main (center) image -->
-		<div class="image-card main-image">
-		  <img 
-			[src]="images[currentIndex()]" 
-			alt="Main Image" />
-		</div>
-	  
-		<!-- Right neighbor (smaller & blurred) -->
-		<div class="image-card neighbor-image right-neighbor" 
-			 *ngIf="images.length > 1" (click)="onNeighborClick('right')">
-		  <img 
-			[src]="images[nextIndex()]" 
-			alt="Next Image" />
-		</div>
-	  
-		<!-- Prev/Next Arrows -->
+		<!-- Navigation arrows -->
 		<button class="nav-arrow left-arrow" *ngIf="showArrows && images.length > 1" (click)="prev()">
-		  &lt;
+			&lt;
 		</button>
 		<button class="nav-arrow right-arrow" *ngIf="showArrows && images.length > 1" (click)="next()">
-		  &gt;
+			&gt;
 		</button>
-	  </div>
-	  
-	  <!-- Radio Buttons for Selection -->
-	  <div class="carousel-radios" *ngIf="showRadioButtons && images.length > 1">
+	</div>
+
+	<!-- Radio Buttons for Selection -->
+	<div class="carousel-radios" *ngIf="showRadioButtons && images.length > 1">
 		<label *ngFor="let img of images; let i = index">
-		  <input 
-			type="radio" 
-			[checked]="i === currentIndex()" 
-			name="carousel-radios" 
-			(change)="selectIndex(i)">
-		  <!-- Visible dot or custom styling -->
-		  <span class="radio-dot"></span>
+			<input type="radio" [checked]="i === currentIndex()" name="carousel-radios" (change)="selectIndex(i)">
+			<!-- Visible dot or custom styling -->
+			<span class="radio-dot"></span>
 		</label>
-	  </div>
-	  
+	</div>
+
 </div>
