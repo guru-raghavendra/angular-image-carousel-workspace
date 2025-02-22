@@ -30,14 +30,8 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   /**
    * Width and height for the main (center) image.
    */
-  @Input() mainWidth = 200;
-  @Input() mainHeight = 200;
-
-  /**
-   * Width and height for the neighbor (prev/next) images.
-   */
-  @Input() neighborWidth = 150;
-  @Input() neighborHeight = 150;
+  @Input() width = 60;
+  @Input() height = 300;
 
 
 

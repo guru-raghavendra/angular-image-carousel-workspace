@@ -1,8 +1,8 @@
 <div class="angular-image-carousel">
 
-	<div class="carousel-container" *ngIf="images && images.length > 0">
+	<div class="carousel-container" [style.height.px]="height + 'px'" *ngIf="images && images.length > 0">
 		<!-- All images -->
-		<div *ngFor="let image of images; let i = index" class="image-card"
+		<div *ngFor="let image of images; let i = index" class="image-card" [style.width]="width + '%'"
 			[class.far-left-position]="positions()[i] === 'far-left'" [class.left-position]="positions()[i] === 'left'"
 			[class.center-position]="positions()[i] === 'center'" [class.right-position]="positions()[i] === 'right'"
 			[class.far-right-position]="positions()[i] === 'far-right'"
