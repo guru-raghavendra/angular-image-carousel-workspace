@@ -7,14 +7,14 @@ import {
   OnDestroy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-  AnimationEvent
-} from '@angular/animations';
+// import {
+//   trigger,
+//   state,
+//   style,
+//   transition,
+//   animate,
+//   AnimationEvent
+// } from '@angular/animations';
 
 @Component({
   selector: 'lib-angular-image-carousel',
@@ -22,31 +22,31 @@ import {
   imports: [CommonModule],
   templateUrl: './angular-image-carousel.component.html',
   styleUrls: ['./angular-image-carousel.component.css'],
-  animations: [
-    trigger('rotateAnimation', [
-      // State for no rotation
-      state('none', style({ transform: 'none' })),
+//   animations: [
+//     trigger('rotateAnimation', [
+//       // State for no rotation
+//       state('none', style({ transform: 'none' })),
 
-      // State for clockwise rotation
-      state('clockwise', style({ transform: 'rotate(360deg)' })),
+//       // State for clockwise rotation
+//       state('clockwise', style({ transform: 'rotate(360deg)' })),
 
-      // State for anticlockwise rotation
-      state('anticlockwise', style({ transform: 'rotate(-360deg)' })),
+//       // State for anticlockwise rotation
+//       state('anticlockwise', style({ transform: 'rotate(-360deg)' })),
 
-      // Any -> clockwise
-      transition('* => clockwise', [
-        animate('0.5s')
-      ]),
-      // Any -> anticlockwise
-      transition('* => anticlockwise', [
-        animate('0.5s')
-      ]),
-      // Return to none
-      transition('* => none', [
-        animate('0s')
-      ])
-    ])
-  ]
+//       // Any -> clockwise
+//       transition('* => clockwise', [
+//         animate('0.5s')
+//       ]),
+//       // Any -> anticlockwise
+//       transition('* => anticlockwise', [
+//         animate('0.5s')
+//       ]),
+//       // Return to none
+//       transition('* => none', [
+//         animate('0s')
+//       ])
+//     ])
+//   ]
 })
 export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   /**
@@ -95,7 +95,7 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
    * Rotation direction used for the animation.
    * Possible values: 'none' | 'clockwise' | 'anticlockwise'
    */
-  rotationState = signal<'none' | 'clockwise' | 'anticlockwise'>('none');
+//   rotationState = signal<'none' | 'clockwise' | 'anticlockwise'>('none');
 
   /**
    * Compute the previous index with wrapping (if loop is true).
@@ -132,7 +132,7 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
     if (!this.loop && this.currentIndex() === 0) return;
 
     // Set rotation state to clockwise
-    this.rotationState.set('clockwise');
+    // this.rotationState.set('clockwise');
     // Move index
     this.currentIndex.set(this.prevIndex());
   }
@@ -144,7 +144,7 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
     if (!this.loop && this.currentIndex() === this.images.length - 1) return;
 
     // Set rotation state to anticlockwise
-    this.rotationState.set('anticlockwise');
+    // this.rotationState.set('anticlockwise');
     // Move index
     this.currentIndex.set(this.nextIndex());
   }
@@ -161,9 +161,9 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
     // If new index is greater than current => anticlockwise
     // Else => clockwise
     if (newIndex > this.currentIndex()) {
-      this.rotationState.set('anticlockwise');
+    //   this.rotationState.set('anticlockwise');
     } else {
-      this.rotationState.set('clockwise');
+    //   this.rotationState.set('clockwise');
     }
     this.currentIndex.set(newIndex);
   }
@@ -183,14 +183,14 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   /**
    * Return inline CSS for neighbor blur effect
    */
-  getBlurStyle(): string {
-    return `blur(${this.blurIntensity}px)`;
-  }
+//   getBlurStyle(): string {
+//     return `blur(${this.blurIntensity}px)`;
+//   }
 
   /**
    * After animation ends, reset to 'none'
    */
-  onAnimationDone(event: AnimationEvent) {
-    this.rotationState.set('none');
-  }
+//   onAnimationDone(event: AnimationEvent) {
+//     // this.rotationState.set('none');
+//   }
 }

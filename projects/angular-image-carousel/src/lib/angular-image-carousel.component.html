@@ -1,54 +1,50 @@
-<div class="carousel-container" *ngIf="images && images.length > 0">
-	<!-- Left neighbor (smaller & blurred) -->
-	<div class="neighbor-image left-neighbor" 
-		 *ngIf="images.length > 1">
-	  <img 
-		[src]="images[prevIndex()]" 
-		[style.width.px]="neighborWidth"
-		[style.height.px]="neighborHeight"
-		[style.filter]="getBlurStyle()" 
-		alt="Previous Image" />
-	</div>
-  
-	<!-- Main (center) image -->
-	<div class="main-image">
-	  <img 
-		[src]="images[currentIndex()]" 
-		[style.width.px]="mainWidth" 
-		[style.height.px]="mainHeight" 
-		alt="Main Image" />
-	</div>
-  
-	<!-- Right neighbor (smaller & blurred) -->
-	<div class="neighbor-image right-neighbor" 
-		 *ngIf="images.length > 1">
-	  <img 
-		[src]="images[nextIndex()]" 
-		[style.width.px]="neighborWidth"
-		[style.height.px]="neighborHeight"
-		[style.filter]="getBlurStyle()" 
-		alt="Next Image" />
-	</div>
-  
-	<!-- Prev/Next Arrows -->
-	<button class="nav-arrow left-arrow" *ngIf="showArrows && images.length > 1" (click)="prev()">
-	  &lt;
-	</button>
-	<button class="nav-arrow right-arrow" *ngIf="showArrows && images.length > 1" (click)="next()">
-	  &gt;
-	</button>
-  </div>
-  
-  <!-- Radio Buttons for Selection -->
-  <div class="carousel-radios" *ngIf="showRadioButtons && images.length > 1">
-	<label *ngFor="let img of images; let i = index">
-	  <input 
-		type="radio" 
-		[checked]="i === currentIndex()" 
-		name="carousel-radios" 
-		(change)="selectIndex(i)">
-	  <!-- Visible dot or custom styling -->
-	  <span class="radio-dot"></span>
-	</label>
-  </div>
-  
+<div class="angular-image-carousel">
+
+	<div class="carousel-container" *ngIf="images && images.length > 0">
+		<!-- Left neighbor (smaller & blurred) -->
+		<div class="image-card neighbor-image left-neighbor" 
+			 *ngIf="images.length > 1" (click)="onNeighborClick('left')">
+		  <img 
+			[src]="images[prevIndex()]" 
+
+			alt="Previous Image" />
+		</div>
+	  
+		<!-- Main (center) image -->
+		<div class="image-card main-image">
+		  <img 
+			[src]="images[currentIndex()]" 
+			alt="Main Image" />
+		</div>
+	  
+		<!-- Right neighbor (smaller & blurred) -->
+		<div class="image-card neighbor-image right-neighbor" 
+			 *ngIf="images.length > 1" (click)="onNeighborClick('right')">
+		  <img 
+			[src]="images[nextIndex()]" 
+			alt="Next Image" />
+		</div>
+	  
+		<!-- Prev/Next Arrows -->
+		<button class="nav-arrow left-arrow" *ngIf="showArrows && images.length > 1" (click)="prev()">
+		  &lt;
+		</button>
+		<button class="nav-arrow right-arrow" *ngIf="showArrows && images.length > 1" (click)="next()">
+		  &gt;
+		</button>
+	  </div>
+	  
+	  <!-- Radio Buttons for Selection -->
+	  <div class="carousel-radios" *ngIf="showRadioButtons && images.length > 1">
+		<label *ngFor="let img of images; let i = index">
+		  <input 
+			type="radio" 
+			[checked]="i === currentIndex()" 
+			name="carousel-radios" 
+			(change)="selectIndex(i)">
+		  <!-- Visible dot or custom styling -->
+		  <span class="radio-dot"></span>
+		</label>
+	  </div>
+	  
+</div>
