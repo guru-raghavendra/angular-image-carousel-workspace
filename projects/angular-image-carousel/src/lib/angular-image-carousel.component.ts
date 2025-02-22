@@ -75,18 +75,21 @@ export class AngularImageCarouselComponent implements OnInit, OnDestroy {
   });
 
   // Track positions of all images
-  positions = signal<('left' | 'center' | 'right' | 'hidden')[]>([]);
+  positions = signal<('far-left' | 'left' | 'center' | 'right' | 'far-right' | 'hidden')[]>([]);
 
   ngOnInit(): void {
     this.updatePositions();
   }
 
   private updatePositions(): void {
+    const current = this.currentIndex();
     const newPositions = this.images.map((_, index) => {
-      if (index === this.currentIndex()) return 'center';
-      if (index === this.prevIndex()) return 'left';
-      if (index === this.nextIndex()) return 'right';
-      return 'hidden';
+        if (index === current) return 'center';
+        if (index === this.prevIndex()) return 'left';
+        if (index === this.nextIndex()) return 'right';
+        if (index < this.prevIndex()) return 'far-left';
+        if (index > this.nextIndex()) return 'far-right';
+        return 'hidden';
     });
     this.positions.set(newPositions);
   }
